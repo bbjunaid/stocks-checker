@@ -1,4 +1,4 @@
-pyexcel-xls==0.2.3
+pyexcel-xls==0.3.0
 googlefinance==0.7
 google-api-python-client==1.5.5
 redis==2.10.5

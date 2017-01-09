@@ -1,6 +1,10 @@
+# utc market hours
+#58 13 * * 1-5 /Users/bilaljunaid/Dropbox/Full_Time_Jobs/code_practice/stocks/scripts/start_day.sh
+#*/2 14-22 * * 1-5 /Users/bilaljunaid/Dropbox/Full_Time_Jobs/code_practice/stocks/scripts/stocks.sh
+
 # west coast market hours
-58 5 * * 1-5 /Users/bilaljunaid/Dropbox/Full_Time_Jobs/code_practice/stocks/scripts/start_day.sh
-*/2 6-13 * * 1-5 /Users/bilaljunaid/Dropbox/Full_Time_Jobs/code_practice/stocks/scripts/stocks.sh
+#58 5 * * 1-5 /Users/bilaljunaid/Dropbox/Full_Time_Jobs/code_practice/stocks/scripts/start_day.sh
+#*/2 6-13 * * 1-5 /Users/bilaljunaid/Dropbox/Full_Time_Jobs/code_practice/stocks/scripts/stocks.sh
 
 # east coast market hours
 #58 8 * * 1-5 /Users/bilaljunaid/Dropbox/Full_Time_Jobs/code_practice/stocks/scripts/start_day.sh
