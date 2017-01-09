@@ -17,3 +17,13 @@ Here is an example email that shows stocks that were triggered as well as releva
 To obtain real time stock prices, I use the python client for the Google Finance API. Similarly for twitter, I used a twitter client. I used smtp to send emails, and the Gmail python client for reading the excel spreadsheet from the gmail inbox.
 
 An example engagement.xls spreadsheet is attached in the repository to get an example of how the format is.
+
+I use crontabs to run these scripts. The first crontab happens at 8:58AM EST, where we clear out the redis cache, download the engagement spreadsheet. 
+
+Thereafter, from 9AM-5PM EST, we run the stocks script every 2 minutes to check for new triggers/tweets. Here is an example crontab line:
+
+```
+# east coast market hours
+58 8 * * 1-5 /Users/bilaljunaid/Dropbox/Full_Time_Jobs/code_practice/stocks/scripts/start_day.sh
+*/2 9-16 * * 1-5 /Users/bilaljunaid/Dropbox/Full_Time_Jobs/code_practice/stocks/scripts/stocks.sh
+```
