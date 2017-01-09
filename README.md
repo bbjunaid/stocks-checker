@@ -11,5 +11,5 @@ Here is an example email that shows stocks that were triggered as well as releva
 
 <p align="center">
   <img src="https://s30.postimg.org/o3wn7a6hd/Screen_Shot_2017_01_09_at_2_25_22_PM.png"/>
-  <img src="https://s30.postimg.org/qmic7ys7l/Screen_Shot_2017_01_09_at_2_25_45_PM.png"/>
+  <img src="https://s28.postimg.org/zc1qeyclp/Screen_Shot_2017_01_09_at_2_32_13_PM.png"/>
 </p>
