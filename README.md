@@ -10,10 +10,6 @@ For any new stocks that trigger or any tweets which contains a triggered stock s
 Here is an example email that shows stocks that were triggered as well as relevant tweets, all in a single email:
 
 <p align="center">
-  <img src="https://postimg.org/image/5bks3pa31/" width="350"/>
-  <img src="https://postimg.org/image/pk85pf9e5/" width="350"/>
+  <img src="https://s30.postimg.org/o3wn7a6hd/Screen_Shot_2017_01_09_at_2_25_22_PM.png"/>
+  <img src="https://s30.postimg.org/qmic7ys7l/Screen_Shot_2017_01_09_at_2_25_45_PM.png"/>
 </p>
-
-![alt tag](https://postimg.org/image/5bks3pa31/)
-
-![alt tag](https://postimg.org/image/pk85pf9e5/)
