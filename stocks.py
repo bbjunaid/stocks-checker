@@ -64,7 +64,7 @@ def is_stock_recently_suggested(date_suggested, days_to_consider):
 def get_recent_stocks_data(data_rows, days_to_consider):
     symbols_list = []
     return_data = {}
-    real_data = data_rows[15:]
+    real_data = data_rows[5:]
 
     for row in real_data:
         if is_valid_stock_info(row):
@@ -221,9 +221,7 @@ def send_email_for_triggered_stocks(stocks, stocks_not_found):
 
     for status in statuses_to_check:
         for symbol in triggered_stock_symbols:
-            status_words = status.text.split(" ")
-            status_words = [word.strip() for word in status_words]
-            if symbol in status_words:
+            if symbol in status.text:
                 print status.text
                 tweet_body += (status.created_at + ": <b>" + status.text + "</b><br>")
 
