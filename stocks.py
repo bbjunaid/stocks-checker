@@ -195,12 +195,6 @@ def send_email_for_triggered_stocks(stocks, stocks_not_found):
                 stock.print_stock()
                 triggered_core += _generate_stock_row(stock)
 
-    body += _generate_table_with_header_and_data("Newly Triggered Stocks", triggered_core)
-
-    # if we have a triggered stock, then let's report previously triggered stocks as well if it exists
-    if triggered_core and previously_triggered_core:
-        body += _generate_table_with_header_and_data("Previously Triggered Stocks", previously_triggered_core)
-
     print "Not found stocks:"
     not_found_core = ""
     if stocks_not_found:
@@ -210,9 +204,6 @@ def send_email_for_triggered_stocks(stocks, stocks_not_found):
                 r.set(stock.symbol, stock.symbol, ex=CACHE_EXPIRY_TIME)  # expire stock symbol after 7h
                 stock.print_stock()
                 not_found_core += _generate_stock_row(stock)
-
-    if not_found_core:
-        body += _generate_table_with_header_and_data("Could not find current price for these stocks", not_found_core)
 
     print "Relevant Tweets"
     tweet_body = ""
@@ -227,6 +218,16 @@ def send_email_for_triggered_stocks(stocks, stocks_not_found):
 
     if len(statuses_to_check) > 0:
         r.set(CACHE_KEY_TWITTER_STATUS, statuses_to_check[0].id, CACHE_EXPIRY_TIME)
+
+    if triggered_core:
+        body += _generate_table_with_header_and_data("Newly Triggered Stocks", triggered_core)
+
+    # report previously triggered stocks if we have new triggers / tweets
+    if previously_triggered_core and (triggered_core or tweet_body):
+        body += _generate_table_with_header_and_data("Previously Triggered Stocks", previously_triggered_core)
+
+    if not_found_core:
+        body += _generate_table_with_header_and_data("Could not find current price for these stocks", not_found_core)
 
     if tweet_body:
         body += "<br>Relevant tweets for triggered stocks<br>"
