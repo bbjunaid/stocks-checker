@@ -10,8 +10,7 @@ For any new stocks that trigger or any tweets which contains a triggered stock s
 Here is an example email that shows stocks that were triggered as well as relevant tweets, all in a single email:
 
 <p align="center">
-  <img src="https://s30.postimg.org/o3wn7a6hd/Screen_Shot_2017_01_09_at_2_25_22_PM.png"/>
-  <img src="https://s28.postimg.org/zc1qeyclp/Screen_Shot_2017_01_09_at_2_32_13_PM.png"/>
+  <img src="https://s29.postimg.org/hi5oirkx3/Screen_Shot_2017_01_10_at_11_47_38_AM.png"/>
 </p>
 
 To obtain real time stock prices, I use the python client for the Google Finance API. Similarly for twitter, I used a twitter client. I used smtp to send emails, and the Gmail python client for reading the excel spreadsheet from the gmail inbox.
