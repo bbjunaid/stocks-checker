@@ -212,7 +212,7 @@ def send_email_for_triggered_stocks(stocks, stocks_not_found):
 
     for status in statuses_to_check:
         for symbol in triggered_stock_symbols:
-            if symbol in status.text:
+            if 'TQQQ' not in status.text and symbol in status.text:
                 print status.text
                 tweet_body += (status.created_at + ": <b>" + status.text + "</b><br>")
 
