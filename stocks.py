@@ -112,7 +112,7 @@ def create_stock_objects(symbols, recent_stocks):
     return stock_objects, stocks_not_found
 
 
-def send_email_for_triggered_stocks(stocks, stocks_not_found):
+def send_email_for_triggered_stocks(stocks, stocks_not_found, tweets_symbols_list):
     current_price_style = "background-color: black; color: white;"
 
     def _generate_table_header(header_label):
@@ -212,7 +212,7 @@ def send_email_for_triggered_stocks(stocks, stocks_not_found):
     statuses_to_check = get_statuses_since_id(reference_status_id)
 
     for status in statuses_to_check:
-        for symbol in triggered_stock_symbols:
+        for symbol in tweets_symbols_list:
             if 'TQQQ' not in status.text and symbol in status.text:
                 print status.text
                 tweet_body += (status.created_at + ": <b>" + status.text + "</b><br>")
@@ -259,13 +259,14 @@ def main():
     data = get_data(ENGAGEMENT_FILE_PATH)
     json_data = json.loads(json.dumps(data, cls=MyEncoder))
     symbols_list, recent_stocks_data = get_recent_stocks_data(json_data['Sheet1'], days_to_consider=7)
+    tweets_symbols_list, _ = get_recent_stocks_data(json_data['Sheet1'], days_to_consider=30)
     stock_objects, stocks_not_found = create_stock_objects(symbols_list, recent_stocks_data)
 
     if not r.get(CACHE_KEY_TWITTER_STATUS):
         reference_status_id = get_status_for_first_tweet_of_day().id
         r.set(CACHE_KEY_TWITTER_STATUS, reference_status_id, ex=CACHE_EXPIRY_TIME)
 
-    send_email_for_triggered_stocks(stock_objects, stocks_not_found)
+    send_email_for_triggered_stocks(stock_objects, stocks_not_found, tweets_symbols_list)
 
 
 if __name__ == "__main__":
