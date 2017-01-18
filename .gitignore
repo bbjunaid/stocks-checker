@@ -1,3 +1,6 @@
 virtualenv/
 const.py
 *.pyc
+engagement.xls
+scripts/start_day.sh
+scripts/stocks.sh
