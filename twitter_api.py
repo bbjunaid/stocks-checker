@@ -6,7 +6,8 @@ import pickle
 
 import twitter
 
-from const import TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET, TWITTER_ACCESS_TOKEN_KEY, TWITTER_ACCESS_TOKEN_SECRET, TWITTER_STOCK_USERNAME, FOLLOWERS_FILE_PATH
+from auth import TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET, TWITTER_ACCESS_TOKEN_KEY, TWITTER_ACCESS_TOKEN_SECRET, TWITTER_STOCK_USERNAME
+from const import FOLLOWERS_FILE_PATH
 
 api = twitter.Api(consumer_key=TWITTER_CONSUMER_KEY,
                   consumer_secret=TWITTER_CONSUMER_SECRET,
@@ -54,7 +55,3 @@ def chunks(l, n):
     """Yield successive n-sized chunks from l."""
     for i in range(0, len(l), n):
         yield l[i:i + n]
-
-
-if __name__ == "__main__":
-    main()

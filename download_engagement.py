@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 
 import gmail
-from const import GMAIL_USER, GMAIL_PASS, ENGAGEMENT_FILE_PATH, CACHE_KEY_TREND, CACHE_EXPIRY_TIME
+
+from auth import GMAIL_USER, GMAIL_PASS
+from const import ENGAGEMENT_FILE_PATH, CACHE_KEY_TREND, CACHE_EXPIRY_TIME
 from stocks import r
 
 def main():

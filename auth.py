@@ -1,0 +1,10 @@
+GMAIL_USER = ''
+GMAIL_PASS = ''
+GMAIL_SEND_LIST = ["test@test.com", "test2@test.com"]
+# GMAIL_SEND_LIST = ["bbjunaid@gmail.com"]
+
+TWITTER_STOCK_USERNAME = 'fitzstockcharts'
+TWITTER_CONSUMER_KEY = ''
+TWITTER_CONSUMER_SECRET = ''
+TWITTER_ACCESS_TOKEN_KEY = ''
+TWITTER_ACCESS_TOKEN_SECRET = ''

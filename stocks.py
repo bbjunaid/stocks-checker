@@ -10,7 +10,8 @@ from googlefinance import getQuotes
 from pyexcel_xls import get_data
 import redis
 
-from const import GMAIL_USER, GMAIL_PASS, GMAIL_SEND_LIST, ENGAGEMENT_FILE_PATH, CACHE_KEY_TWITTER_STATUS, CACHE_EXPIRY_TIME, CACHE_KEY_TREND
+from auth import GMAIL_USER, GMAIL_PASS, GMAIL_SEND_LIST
+from const import ENGAGEMENT_FILE_PATH, CACHE_KEY_TWITTER_STATUS, CACHE_EXPIRY_TIME, CACHE_KEY_TREND
 from twitter_api import get_status_for_first_tweet_of_day, get_statuses_since_id
 
 GMAIL_SERVER = smtplib.SMTP('smtp.gmail.com', 587)
