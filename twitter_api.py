@@ -12,7 +12,8 @@ from const import FOLLOWERS_FILE_PATH
 api = twitter.Api(consumer_key=TWITTER_CONSUMER_KEY,
                   consumer_secret=TWITTER_CONSUMER_SECRET,
                   access_token_key=TWITTER_ACCESS_TOKEN_KEY,
-                  access_token_secret=TWITTER_ACCESS_TOKEN_SECRET)
+                  access_token_secret=TWITTER_ACCESS_TOKEN_SECRET,
+                  sleep_on_rate_limit=True)
 
 
 def get_statuses_since_id(id):
@@ -36,14 +37,29 @@ def get_status_for_first_tweet_of_day():
 def get_followers():
     followers_list = []
     follower_ids = api.GetFollowerIDs(screen_name=TWITTER_STOCK_USERNAME)
-    follower_ids_chunks = chunks(follower_ids, 100)
+    followers = return_users_from_ids(follower_ids, api)
+    blacklist = ['fitz', 'worldsceo', 'itradestox1', 'badnewsbees2005', 'tradestoxnow', 'kevinbanks77', 'mattth', 'charlie4czunz', 'rorotrader']
 
-    for item in follower_ids_chunks:
-        followers = api.UsersLookup(user_id=item)
-        for follower in followers:
-            followers_list.append(follower.name)
+    for follower in followers:
+        blacklisted = False
+        for item in blacklist:
+            if item in follower.lower():
+                blacklisted = True
+                break
+        if not blacklisted:
+            followers_list.append(follower)
 
     return followers_list
+
+
+def return_users_from_ids(user_ids, current_api):
+    all_users = []
+    id_chunks = chunks(user_ids, 100)
+    for item in id_chunks:
+        users = current_api.UsersLookup(user_id=item)
+        for user in users:
+            all_users.append(user.screen_name)
+    return all_users
 
 
 def dump_followers_to_file():

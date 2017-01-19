@@ -4,3 +4,5 @@ engagement.xls
 scripts/start_day.sh
 scripts/stocks.sh
 auth.py
+personal_twitter.py
+followers.txt
