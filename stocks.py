@@ -1,10 +1,7 @@
 #!/usr/bin/env python
 
 import datetime
-from email.MIMEMultipart import MIMEMultipart
-from email.MIMEText import MIMEText
 import json
-import smtplib
 
 from googlefinance import getQuotes
 from pyexcel_xls import get_data
@@ -12,9 +9,9 @@ import redis
 
 from auth import GMAIL_USER, GMAIL_PASS, GMAIL_SEND_LIST
 from const import ENGAGEMENT_FILE_PATH, CACHE_KEY_TWITTER_STATUS, CACHE_EXPIRY_TIME, CACHE_KEY_TREND
+from smtpexample import mail
 from twitter_api import get_status_for_first_tweet_of_day, get_statuses_since_id
 
-GMAIL_SERVER = smtplib.SMTP('smtp.gmail.com', 587)
 r = redis.StrictRedis(host='localhost', port=6379, db=0)
 
 
@@ -237,22 +234,18 @@ def send_email_for_triggered_stocks(stocks, stocks_not_found, tweets_symbols_lis
     body += "</body></html>"
 
     if triggered_core or not_found_core or tweet_body:
-        server = GMAIL_SERVER
-        server.starttls()
-        fromaddr = GMAIL_USER
-        toaddr = GMAIL_SEND_LIST
-        msg = MIMEMultipart()
-        msg['From'] = fromaddr
         trend = r.get(CACHE_KEY_TREND)
         subject = "ENGAGED STOCKS"
         if trend:
             subject = trend + ": " + "ENGAGED STOCKS"
-        msg['Subject'] = subject
-        msg.attach(MIMEText(body, 'html'))
-        server.login(fromaddr, GMAIL_PASS)
-        text = msg.as_string()
-        server.sendmail(fromaddr, toaddr, text)
-        server.quit()
+        mail(gmail_user=GMAIL_USER,
+             gmail_pwd=GMAIL_PASS,
+             from_gmail_user="Stocks Software <{email}>".format(email=GMAIL_USER),
+             to='',
+             subject=subject,
+             text='',
+             bcc=GMAIL_SEND_LIST,
+             html=body)
 
 
 def main():
