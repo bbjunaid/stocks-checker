@@ -8,7 +8,7 @@ from pyexcel_xls import get_data
 import redis
 
 from auth import GMAIL_USER, GMAIL_PASS, GMAIL_SEND_LIST
-from const import ENGAGEMENT_FILE_PATH, CACHE_KEY_TWITTER_STATUS, CACHE_EXPIRY_TIME, CACHE_KEY_TREND
+from const import ENGAGEMENT_FILE_PATH, CACHE_KEY_TWITTER_STATUS, CACHE_EXPIRY_TIME, CACHE_KEY_TREND, CACHE_TWITTER_STATUS_RETRY
 from smtpexample import mail
 from twitter_api import get_status_for_first_tweet_of_day, get_statuses_since_id
 
@@ -206,7 +206,7 @@ def send_email_for_triggered_stocks(stocks, stocks_not_found, tweets_symbols_lis
     print "Relevant Tweets"
     tweet_body = ""
     reference_status_id = r.get(CACHE_KEY_TWITTER_STATUS)
-    statuses_to_check = get_statuses_since_id(reference_status_id)
+    statuses_to_check = get_statuses_since_id(reference_status_id) if reference_status_id else []
 
     for status in statuses_to_check:
         for symbol in tweets_symbols_list:
@@ -254,8 +254,12 @@ def main():
     symbols_list, recent_stocks_data = get_recent_stocks_data(json_data['Sheet1'], days_to_consider=7)
     tweets_symbols_list, _ = get_recent_stocks_data(json_data['Sheet1'], days_to_consider=30)
     stock_objects, stocks_not_found = create_stock_objects(symbols_list, recent_stocks_data)
+    status_retry = r.get(CACHE_TWITTER_STATUS_RETRY)
+    if not status_retry:
+        status_retry = 0
 
-    if not r.get(CACHE_KEY_TWITTER_STATUS):
+    if not r.get(CACHE_TWITTER_STATUS_RETRY) and status_retry <= 5:
+	r.set(CACHE_TWITTER_STATUS_RETRY, status_retry+1)
         reference_status_id = get_status_for_first_tweet_of_day().id
         r.set(CACHE_KEY_TWITTER_STATUS, reference_status_id, ex=CACHE_EXPIRY_TIME)
 

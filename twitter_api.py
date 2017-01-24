@@ -12,8 +12,7 @@ from const import FOLLOWERS_FILE_PATH
 api = twitter.Api(consumer_key=TWITTER_CONSUMER_KEY,
                   consumer_secret=TWITTER_CONSUMER_SECRET,
                   access_token_key=TWITTER_ACCESS_TOKEN_KEY,
-                  access_token_secret=TWITTER_ACCESS_TOKEN_SECRET,
-                  sleep_on_rate_limit=True)
+                  access_token_secret=TWITTER_ACCESS_TOKEN_SECRET)
 
 
 def get_statuses_since_id(id):
