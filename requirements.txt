@@ -1,6 +1,11 @@
 pyexcel-xls==0.3.0
-googlefinance==0.7
 google-api-python-client==1.5.5
 redis==2.10.5
 python-twitter==3.2
 -e git+git@github.com:charlierguo/gmail.git#egg=gmail
+-e git+git@github.com:hongtaocai/googlefinance.git#egg=googlefinance
+oauth2client==4.0.0
+PyOpenSSL==16.2.0
+gspread==0.6.2
+demjson
+yahoo-finance==1.4.0
