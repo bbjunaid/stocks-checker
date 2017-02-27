@@ -63,3 +63,9 @@ class TablePrinter:
                                   volume_ratio=round(float(stock.volume)/float(stock.avg_daily_volume), 2),
                                   volume=format(int(stock.volume), ","),
                                   avg_daily_volume=format(int(stock.avg_daily_volume), ","))
+
+    def generate_table_with_header_and_data(self, header_label, core):
+        table = self.generate_table_header(header_label)
+        table += core
+        table += "</table>"
+        return table

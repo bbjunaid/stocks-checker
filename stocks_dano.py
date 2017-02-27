@@ -22,7 +22,7 @@ class Stock:
         self.symbol = symbol
         self.trigger_price = trigger_price
         self.current_price = current_price
-        self.percent_change = percent_change
+        self.percent_change = percent_change if percent_change else '0%'
         self.volume = volume
         self.avg_daily_volume = avg_daily_volume
 
@@ -54,8 +54,8 @@ def get_stocks():
 def send_email(stocks):
     printer = TablePrinter()
     body = printer.body()
-    triggered_core = printer.generate_table_header("Triggered Stocks")
-    prev_core = printer.generate_table_header("Previously Triggered Stocks")
+    triggered_core = ""
+    prev_core = ""
     is_triggered = False
     is_prev_triggered = False
     for stock in stocks:
@@ -71,9 +71,9 @@ def send_email(stocks):
                 is_triggered = True
 
     if is_triggered:
-        body += triggered_core
+        body += printer.generate_table_with_header_and_data("Triggered Stocks", triggered_core)
     if is_prev_triggered:
-        body += prev_core
+        body += printer.generate_table_with_header_and_data("Previously Triggered", prev_core)
     body += "</body></html>"
 
     if is_triggered:
