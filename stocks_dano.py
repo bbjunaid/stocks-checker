@@ -1,8 +1,10 @@
 import gspread
+import redis
 from oauth2client.service_account import ServiceAccountCredentials
 from yahoo_finance import Share
 
 from auth import GDRIVE_API_KEY_PATH, GMAIL_USER, GMAIL_PASS, GMAIL_SEND_LIST
+from const import CACHE_EXPIRY_TIME
 from printer import TablePrinter
 from smtpexample import mail
 
@@ -11,6 +13,8 @@ scope = ['https://spreadsheets.google.com/feeds']
 credentials = ServiceAccountCredentials.from_json_keyfile_name(GDRIVE_API_KEY_PATH, scope)
 
 gc = gspread.authorize(credentials)
+
+r = redis.StrictRedis(host='localhost', port=6379, db=0)
 
 
 class Stock:
@@ -50,12 +54,26 @@ def get_stocks():
 def send_email(stocks):
     printer = TablePrinter()
     body = printer.body()
-    body += printer.generate_table_header("Dano Stocks")
+    triggered_core = printer.generate_table_header("Triggered Stocks")
+    prev_core = printer.generate_table_header("Previously Triggered Stocks")
     is_triggered = False
+    is_prev_triggered = False
     for stock in stocks:
         if stock.is_triggered():
-            is_triggered = True
-            body += printer.generate_stock_row(stock)
+            if r.get(stock.symbol):
+                print "Previously Triggered: {symbol}".format(symbol=stock.symbol)
+                prev_core += printer.generate_stock_row(stock)
+                is_prev_triggered = True
+            else:
+                print "Triggered: {symbol}".format(symbol=stock.symbol)
+                r.set(stock.symbol, stock.symbol, ex=CACHE_EXPIRY_TIME)  # expire stock symbol after 7h
+                triggered_core += printer.generate_stock_row(stock)
+                is_triggered = True
+
+    if is_triggered:
+        body += triggered_core
+    if is_prev_triggered:
+        body += prev_core
     body += "</body></html>"
 
     if is_triggered:
