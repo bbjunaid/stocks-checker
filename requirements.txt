@@ -9,3 +9,4 @@ PyOpenSSL==16.2.0
 gspread==0.6.2
 demjson
 yahoo-finance==1.4.0
+beautifulsoup4==4.5.3

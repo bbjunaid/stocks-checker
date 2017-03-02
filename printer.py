@@ -40,8 +40,6 @@ class TablePrinter:
                     <th>Trigger Change</th> \
                     <th>Daily Change</th> \
                     <th>Volume Ratio</th>\
-                    <th>Volume</th> \
-                    <th>Avg Daily Volume</th>\
                     </tr>".format(header_label=header_label)
 
     def generate_stock_row(self, stock):
@@ -49,20 +47,17 @@ class TablePrinter:
                     <th>{symbol}</th>\
                     <th>{trigger_price}</th>\
                     <th><b>{current_price}</b></th> \
-                    <th style='color: green'>+{percent_change_from_trigger}%</th> \
-                    <th style='color: {color}'>{percent_change}</th> \
+                    <th style='color: {color_trigger}'>{percent_change_from_trigger}</th> \
+                    <th style='color: {color_change}'>{percent_change}</th> \
                     <th>{volume_ratio}</th> \
-                    <th>{volume}</th> \
-                    <th>{avg_daily_volume}</th>\
                     </tr>".format(symbol=stock.symbol,
                                   trigger_price=stock.trigger_price,
                                   current_price=stock.current_price,
-                                  percent_change=stock.percent_change,
-                                  percent_change_from_trigger=round(100*(float(stock.current_price)-float(stock.trigger_price))/float(stock.trigger_price), 2),
-                                  color='red' if float(stock.percent_change[:-1]) < 0 else 'green',
-                                  volume_ratio=round(float(stock.volume)/float(stock.avg_daily_volume), 2),
-                                  volume=format(int(stock.volume), ","),
-                                  avg_daily_volume=format(int(stock.avg_daily_volume), ","))
+                                  percent_change=('+' if stock.percent_change >= 0 else '') + str(stock.percent_change) + '%',
+                                  color_change='red' if stock.percent_change < 0 else 'green',
+                                  percent_change_from_trigger=('+' if stock.percent_change_from_trigger >= 0 else '') + str(stock.percent_change_from_trigger) + '%',
+                                  color_trigger='red' if stock.percent_change_from_trigger < 0 else 'green',
+                                  volume_ratio=stock.vol_per_avg)
 
     def generate_table_with_header_and_data(self, header_label, core):
         table = self.generate_table_header(header_label)
