@@ -15,6 +15,11 @@ Fill in credentials:
 
     auth.py
     
+Download redis and deamonize it:
+
+    brew install redis
+    /usr/local/bin/redis-server --daemonize yes
+
 Run either script:
 
     python stocks.py
