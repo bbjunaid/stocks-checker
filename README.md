@@ -15,6 +15,11 @@ Fill in credentials:
 
     auth.py
     
+Run either script:
+
+    python stocks.py
+    python stocks_dano.py
+
 For fitzstock, you need a twitter account that follows fitzstockcharts and generate consumer and access keys from https://dev.twitter.com. You also need to ensure you're receiving the spreadsheet daily from Fitz. You need to fill in your gmail username, password, and desired mailing list.
 
 For chartpattern, you need to generate google drive api keys and save them in a JSON and update the GDRIVE_API_KEY_PATH. Then you need to create a google spreadsheet with the stock symbols as the first column and their trigger prices as second column to receive alerts.
