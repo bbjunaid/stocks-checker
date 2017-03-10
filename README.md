@@ -66,5 +66,5 @@ Thereafter, from 9AM-5PM EST, we run the stocks script every 2 minutes to check 
 This script monitors a google spreadsheet maintained by me and my friend based on stocks recommended on chartpattern. It parses the google sheet, monitors the stock prices, and sends email when stocks alert. The columns are slightly different as Dano recommends trading based on volume as well:
 
 <p align="center">
-  <img src="https://s2.postimg.org/w5xqs2fzt/Screen_Shot_2017_03_05_at_9_46_13_PM.png"/>
+  <img src="https://s11.postimg.org/t0o2nnvsz/Screen_Shot_2017_03_10_at_12_41_43_AM.png"/>
 </p>
