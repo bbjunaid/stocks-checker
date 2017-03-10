@@ -6,7 +6,6 @@ import gspread
 import redis
 import requests
 from oauth2client.service_account import ServiceAccountCredentials
-from yahoo_finance import Share
 
 from auth import GDRIVE_API_KEY_PATH, GMAIL_USER, GMAIL_PASS, GMAIL_SEND_LIST
 from const import CACHE_EXPIRY_TIME
@@ -23,24 +22,49 @@ r = redis.StrictRedis(host='localhost', port=6379, db=0)
 
 
 class Stock:
-    def __init__(self, symbol, trigger_price, current_price=0, percent_change=0, percent_change_from_trigger=0, vol_per_avg='N/A'):
+    def __init__(self, symbol, trigger_price, current_price=0, percent_change=0,
+                 percent_change_from_trigger=0, vol='N/A', avg_vol='N/A', vol_ratio='N/A', earnings='N/A'):
         self.symbol = symbol
         self.trigger_price = trigger_price
         self.current_price = current_price
         self.percent_change = percent_change
         self.percent_change_from_trigger = percent_change_from_trigger
-        self.vol_per_avg = vol_per_avg
+        self.vol = vol
+        self.avg_vol = avg_vol
+        self.vol_ratio = vol_ratio
+        self.earnings = earnings
 
     def update(self):
-        resp = requests.get('https://www.google.com/finance?q={symbol}'.format(symbol=self.symbol))
-        soup = BeautifulSoup(resp.content, 'html.parser')
         self.current_price = round(float(getQuotes(self.symbol)[0]['LastTradePrice']), 2)
-        self.percent_change = round((float(getQuotes(self.symbol)[0]['LastTradePrice']) / float(getQuotes(self.symbol)[0]['PreviousClosePrice']) - 1)*100, 2)
-        self.percent_change_from_trigger = round((self.current_price - self.trigger_price) / self.trigger_price * 100, 2)
-        self.vol_per_avg = soup.find('td', attrs={'data-snapfield': 'vol_and_avg'}).findNextSibling('td').text.rstrip()
+        self.percent_change = round((float(getQuotes(self.symbol)[0]['LastTradePrice']) /
+                                     float(getQuotes(self.symbol)[0]['PreviousClosePrice']) - 1)*100, 2)
+        self.percent_change_from_trigger = round((self.current_price - self.trigger_price) /
+                                                  self.trigger_price * 100, 2)
+        self.update_volume()
+        self.update_earnings()
 
     def is_triggered(self):
         return self.current_price >= self.trigger_price
+
+    def update_volume(self):
+        try:
+            resp = requests.get('http://finance.yahoo.com/quote/{symbol}'.format(symbol=self.symbol))
+            soup = BeautifulSoup(resp.content, 'html.parser')
+            self.vol = soup.find('td', attrs={'data-test': 'TD_VOLUME-value'}).text
+            self.avg_vol = soup.find('td', attrs={'data-test': 'AVERAGE_VOLUME_3MONTH-value'}).text
+            self.vol_ratio = round(float(self.vol.replace(',', ''))/float(self.avg_vol.replace(',', '')), 2)
+        except Exception as e:
+            print e.message
+
+    def update_earnings(self):
+        try:
+            resp = requests.get('http://www.nasdaq.com/earnings/report/{symbol}'.format(symbol=self.symbol))
+            m = re.search("Earnings announcement\* for \w+: (.*)", resp.content)
+            date = m.group(1).strip()
+            if m and date:
+                self.earnings = date
+        except Exception as e:
+            print e.message
 
     def print_stock(self):
         print self.__dict__
