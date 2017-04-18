@@ -41,7 +41,7 @@ For any new stocks that trigger or any tweets which contains a triggered stock s
 
 Here is an example email that shows stocks that were triggered as well as relevant tweets, all in a single email:
 
-https://cloud.githubusercontent.com/assets/1175122/25125605/486975f6-23e4-11e7-8b5e-68e2ce91bfd2.png
+![Screenshot](https://cloud.githubusercontent.com/assets/1175122/25125605/486975f6-23e4-11e7-8b5e-68e2ce91bfd2.png)
 
 To obtain real time stock prices, I use the python client for the Google Finance API. Similarly for twitter, I used a twitter client. I used smtp to send emails, and the Gmail python client for reading the excel spreadsheet from the gmail inbox.
 
@@ -63,4 +63,4 @@ Thereafter, from 9AM-5PM EST, we run the stocks script every 2 minutes to check 
     
 This script monitors a google spreadsheet maintained by me and my friend based on stocks recommended on chartpattern. It parses the google sheet, monitors the stock prices, and sends email when stocks alert. The columns are slightly different as Dano recommends trading based on volume as well:
 
-https://cloud.githubusercontent.com/assets/1175122/25125614/4f90db44-23e4-11e7-8c4a-48c4e735285b.png
+![Screenshot](https://cloud.githubusercontent.com/assets/1175122/25125614/4f90db44-23e4-11e7-8c4a-48c4e735285b.png)
